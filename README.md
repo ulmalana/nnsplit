@@ -2,7 +2,8 @@
 ## P4 Code
 * nnsplit.p4
 * forwarding.p4 (switch without bnn)
-* p4app.json (topology configuration)
+* p4app.json (environment configuration)
+* s*-commands.txt (switch configuration)
 ## For controller
 * get_digest.py
 * output_layer.py
