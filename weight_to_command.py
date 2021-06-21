@@ -1,3 +1,5 @@
+#create switch commands to insert bnn weights
+
 import sys
 
 if len(sys.argv)<3:
