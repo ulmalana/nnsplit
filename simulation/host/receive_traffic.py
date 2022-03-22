@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+# NOTE: THIS SCRIPT IS STILL IN PYTHON 2
+
 import sys
 import struct
 import os
@@ -14,11 +17,6 @@ from scapy.fields import *
 #packet_counts = Counter()
 count = 0
 
-class BNNHeader(Packet):
-    name = 'BNN Val'
-    fields_desc = [BitField("type",0,8), BitField('val',0,56)]
-
-bind_layers(BNNHeader, Ether)
 
 def get_if():
     ifs=get_if_list()

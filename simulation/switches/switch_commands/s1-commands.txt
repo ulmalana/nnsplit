@@ -1,0 +1,64 @@
+table_set_default ipv4_lpm drop
+table_add ipv4_lpm ipv4_forward 10.0.1.1/32 => 00:00:0a:00:01:01 1
+table_add ipv4_lpm ipv4_forward 10.0.4.0/24 => 00:01:0a:00:02:02 2
+
+table_add check_is_ingress_border is_ingress_border 1 =>
+table_add check_port check_ingress_port 1 =>
+table_set_default check_swid check_switch_id 1
+
+register_write MyIngress.weights_bnn 0 28747537553653585 
+register_write MyIngress.weights_bnn 1 58009882669547054 
+register_write MyIngress.weights_bnn 2 50104680428138461 
+register_write MyIngress.weights_bnn 3 41023072247938735 
+register_write MyIngress.weights_bnn 4 1689082693558090 
+register_write MyIngress.weights_bnn 5 61339848119107665 
+register_write MyIngress.weights_bnn 6 15658749585717980 
+register_write MyIngress.weights_bnn 7 70139698547899335 
+register_write MyIngress.weights_bnn 8 61350576610968277 
+register_write MyIngress.weights_bnn 9 32087912517402772 
+register_write MyIngress.weights_bnn 10 4874340783423150 
+register_write MyIngress.weights_bnn 11 12947946597949304 
+register_write MyIngress.weights_bnn 12 26387241260942836 
+register_write MyIngress.weights_bnn 13 40855283312262828 
+register_write MyIngress.weights_bnn 14 71710494881086126 
+register_write MyIngress.weights_bnn 15 67133683944023376 
+register_write MyIngress.weights_bnn 16 32015941796692307 
+register_write MyIngress.weights_bnn 17 16114789602559313 
+register_write MyIngress.weights_bnn 18 10791254908787372 
+register_write MyIngress.weights_bnn 19 14062772062060791 
+register_write MyIngress.weights_bnn 20 31912573291461930 
+register_write MyIngress.weights_bnn 21 61359435138916849 
+register_write MyIngress.weights_bnn 22 58016804816168771 
+register_write MyIngress.weights_bnn 23 9524265333439150 
+register_write MyIngress.weights_bnn 24 46891619799681684 
+register_write MyIngress.weights_bnn 25 64771865043461457 
+register_write MyIngress.weights_bnn 26 28899838921188809 
+register_write MyIngress.weights_bnn 27 1877670865279663 
+register_write MyIngress.weights_bnn 28 58034129269947905 
+register_write MyIngress.weights_bnn 29 61317327346394220 
+register_write MyIngress.weights_bnn 30 25201719962338641 
+register_write MyIngress.weights_bnn 31 41083600233628789 
+register_write MyIngress.weights_bnn 32 67204048118677440 
+register_write MyIngress.weights_bnn 33 13837293688389512 
+register_write MyIngress.weights_bnn 34 30972846845394600 
+register_write MyIngress.weights_bnn 35 61359922642747529 
+register_write MyIngress.weights_bnn 36 57986013983670098 
+register_write MyIngress.weights_bnn 37 68093106994659729 
+register_write MyIngress.weights_bnn 38 1699449267437096 
+register_write MyIngress.weights_bnn 39 19804342294790984 
+register_write MyIngress.weights_bnn 40 14071204851333806 
+register_write MyIngress.weights_bnn 41 39971614433902434 
+register_write MyIngress.weights_bnn 42 5064642650767825 
+register_write MyIngress.weights_bnn 43 2178868635960400 
+register_write MyIngress.weights_bnn 44 41078118111903150 
+register_write MyIngress.weights_bnn 45 31155413760983256 
+register_write MyIngress.weights_bnn 46 43066323140411337 
+register_write MyIngress.weights_bnn 47 30980183995055974 
+register_write MyIngress.weights_bnn 48 34130678466143319 
+register_write MyIngress.weights_bnn 49 65517977680608942 
+register_write MyIngress.weights_bnn 50 22941910688396340 
+register_write MyIngress.weights_bnn 51 66586062876245550 
+register_write MyIngress.weights_bnn 52 23079025589962191 
+register_write MyIngress.weights_bnn 53 31942931160170667 
+register_write MyIngress.weights_bnn 54 40200249073359395 
+register_write MyIngress.weights_bnn 55 61345078303679159

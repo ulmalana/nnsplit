@@ -8,9 +8,9 @@ const bit<16> TYPE_IPV4 = 0x800;
 const bit<16> TYPE_SOREN = 0x8845;
 const bit<8>  TYPE_TCP  = 6;
 
-#define CONST_MAX_PORTS 	32
-#define CONST_MAX_LABELS 	10
-#define REGISTER_LENGTH 255
+// #define CONST_MAX_PORTS 	32
+// #define CONST_MAX_LABELS 	10
+// #define REGISTER_LENGTH 255
 
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
@@ -156,8 +156,8 @@ control MyIngress(inout headers hdr,
                   inout standard_metadata_t standard_metadata) {
 
 
-    register<bit<56>>(100) weights_bnn;
-    bit<56> bnn_input = 0;
+    register<bit<56>>(60) weights_bnn;
+    bit<56> bnnInput = 0;
     bit<56> XNOROutput = 0;
     bit<56> NextLayerInput = 0;
     bit<5> output_result = 0;
@@ -176,14 +176,14 @@ control MyIngress(inout headers hdr,
 
     // input: proto, srcport, dstport, packet len
     action BuildInput(){
-        bnn_input = ((bit<56>)hdr.ipv4.protocol)<<16;
-        bnn_input = (bnn_input + (bit<56>)L4src)<<16;
-        bnn_input = (bnn_input + (bit<56>)L4dst)<<16;
-        bnn_input = (bnn_input + (bit<56>)hdr.ipv4.totalLen);
+        bnnInput = ((bit<56>)hdr.ipv4.protocol)<<16;
+        bnnInput = (bnnInput + (bit<56>)L4src)<<16;
+        bnnInput = (bnnInput + (bit<56>)L4dst)<<16;
+        bnnInput = (bnnInput + (bit<56>)hdr.ipv4.totalLen);
     }
 
     action XNOR(bit<56> weight){
-        XNOROutput = weight^bnn_input;
+        XNOROutput = weight^bnnInput;
         XNOROutput = ~XNOROutput;
     }
 
@@ -380,7 +380,7 @@ control MyIngress(inout headers hdr,
             meta.is_ingress_border = (bit<1>)1;
 
         }
-        if (swid == 5) {
+        if (swid == 4) {
             meta.is_egress_border = (bit<1>)1;
         }
     }
@@ -441,16 +441,17 @@ control MyIngress(inout headers hdr,
         if (meta.is_ingress_border == 1 && standard_metadata.ingress_port == 1) {
             if (hdr.ipv4.isValid()){
 
+
                  add_soren_header();
 
                  if (hdr.soren.val == 0){
-                     hdr.soren.val = (bit<56>)1;
+                     //hdr.soren.val = (bit<56>)1;
                      BuildInput();
-                     weights_bnn.write(70, bnn_input);
+                     //weights_bnn.write(70, bnnInput);
 
                      LayerProcess(0);
 
-                     weights_bnn.write(71, NextLayerInput);
+                     //weights_bnn.write(71, NextLayerInput);
 
                      hdr.soren.val = NextLayerInput;
 
@@ -461,9 +462,9 @@ control MyIngress(inout headers hdr,
         else if (hdr.soren.isValid()){
 
              if (hdr.soren.val != 0){
-                 bnn_input = hdr.soren.val;
+                 bnnInput = hdr.soren.val;
                  LayerProcess(0);
-                 weights_bnn.write(73, NextLayerInput);
+                 //weights_bnn.write(73, NextLayerInput);
                  hdr.soren.val = NextLayerInput;
              }
 
@@ -476,7 +477,7 @@ control MyIngress(inout headers hdr,
                 hdr.soren.setInvalid();
                 hdr.ethernet.etherType = TYPE_IPV4;
 
-                weights_bnn.write(98, hdr.soren.val);
+                weights_bnn.write(59, soren_val);
 
             }
 
@@ -517,7 +518,7 @@ control MyComputeChecksum(inout headers hdr, inout metadata meta) {
 	update_checksum(
 	    hdr.ipv4.isValid(),
             { hdr.ipv4.version,
-	            hdr.ipv4.ihl,
+	      hdr.ipv4.ihl,
               hdr.ipv4.tos,
               hdr.ipv4.totalLen,
               hdr.ipv4.identification,

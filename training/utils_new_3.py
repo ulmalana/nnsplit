@@ -4,6 +4,24 @@ from scapy.layers.inet import TCP
 from scapy.packet import Padding
 from scapy.utils import rdpcap
 
+PREFIX_TO_TRAFFIC_ID_NEW = {
+    'file-transfer': 0,
+    'vpn-file-transfer': 0,
+    'streaming': 1,
+    'vpn-streaming': 1,
+    'torrent': 2, 
+    'vpn-torrent': 2
+}
+
+ID_TO_TRAFFIC_NEW = {
+    0: 'File Transfer',
+    1: 'Streaming',
+    2: 'Torrent',
+    3: 'VPN: File Transfer',
+    4: 'VPN: Streaming',
+    5: 'VPN: Torrent',
+}
+
 # for app identification
 PREFIX_TO_APP_ID = {
     # AIM chat: 4 pcap
@@ -145,48 +163,48 @@ PREFIX_TO_APP_ID = {
     # VPN: 27 (-2)
      'vpn_aim_chat1a': 10,
      'vpn_aim_chat1b': 10,
-    
+
      'vpn_bittorrent': 10,
-    
+
      'vpn_email2a': 10,
      'vpn_email2b': 10,
-    
+
      'vpn_facebook_audio2': 10,
      'vpn_facebook_chat1a': 10,
      'vpn_facebook_chat1b': 10,
-    
+
      'vpn_ftps_a': 10,
      'vpn_ftps_b': 10,
-    
+
      'vpn_hangouts_audio1': 10,
      'vpn_hangouts_audio2': 10,
      'vpn_hangouts_chat1a': 10,
      'vpn_hangouts_chat1b': 10,
-    
+
      'vpn_icq_chat1a': 10,
      'vpn_icq_chat1b': 10,
-    
+
      #miss vpn_netflix (too big) [solved]
     'vpn_netflix_a': 10,
-    
+
      'vpn_sftp_a': 10,
     'vpn_sftp_b': 10,
-   
+
      'vpn_skype_audio1': 10,
      'vpn_skype_audio2': 10,
      'vpn_skype_chat1a': 10,
      'vpn_skype_chat1b': 10,
      'vpn_skype_files1a': 10,
      'vpn_skype_files1b': 10,
-    
+
      #miss vpn_spotify [solved]
     'vpn_spotify_a': 10,
-    
+
      'vpn_vimeo_a': 10,
      'vpn_vimeo_b': 10,
-    
+
     # #miss 2 vpn_voibuster
-    
+
      'vpn_youtube_a': 10,
 
 
@@ -214,143 +232,144 @@ ID_TO_APP = {
 }
 
 # for traffic identification
-PREFIX_TO_TRAFFIC_ID = {
-    # Chat
-    'aim_chat_3a': 9,
-    'aim_chat_3b': 9,
-    'aimchat1': 9,
-    'aimchat2': 9,
-    'facebook_chat_4a': 9,
-    'facebook_chat_4b': 9,
-    'facebookchat1': 9,
-    'facebookchat2': 9,
-    'facebookchat3': 9,
-    'hangout_chat_4b': 9,
-    'hangouts_chat_4a': 9,
-    'icq_chat_3a': 9,
-    'icq_chat_3b': 9,
-    'icqchat1': 9,
-    'icqchat2': 9,
-    'skype_chat1a': 9,
-    'skype_chat1b': 9,
-    # Email
-    'email1a': 7,
-    'email1b': 7,
-    'email2a': 7,
-    'email2b': 7,
-    # File Transfer
-    'ftps_down_1a': 0,
-    'ftps_down_1b': 0,
-    'ftps_up_2a': 0,
-    'ftps_up_2b': 0,
-    'sftp1': 0,
-    'sftp_down_3a': 0,
-    'sftp_down_3b': 0,
-    'sftp_up_2a': 0,
-    'sftp_up_2b': 0,
-    'sftpdown1': 0,
-    'sftpdown2': 0,
-    'sftpup1': 0,
-    'skype_file1': 0,
-    'skype_file2': 0,
-    'skype_file3': 0,
-    'skype_file4': 0,
-    'skype_file5': 0,
-    'skype_file6': 0,
-    'skype_file7': 0,
-    'skype_file8': 0,
-    # Streaming
-    'vimeo1': 1,
-    'vimeo2': 1,
-    'vimeo3': 1,
-    'vimeo4': 1,
-    'youtube1': 1,
-    'youtube2': 1,
-    'youtube3': 1,
-    'youtube4': 1,
-    'youtube5': 1,
-    'youtube6': 1,
-    'youtubehtml5_1': 1,
-    'spotify1': 1,
-    'spotify2': 1,
-    'spotify3': 1,
-    'spotify4': 1,
-    'netflix1': 1,
-    'netflix2': 1,
-    'netflix3': 1,
-    'netflix4': 1,
-    # Torrent
-    'torrent01': 2,
-    # VoIP
-    'facebook_audio1a': 10,
-    'facebook_audio1b': 10,
-    'facebook_audio2a': 10,
-    'facebook_audio2b': 10,
-    'facebook_audio3': 10,
-    'facebook_audio4': 10,
-    'hangouts_audio1a': 10,
-    'hangouts_audio1b': 10,
-    'hangouts_audio2a': 10,
-    'hangouts_audio2b': 10,
-    'hangouts_audio3': 10,
-    'hangouts_audio4': 10,
-    'skype_audio1a': 10,
-    'skype_audio1b': 10,
-    'skype_audio2a': 10,
-    'skype_audio2b': 10,
-    'skype_audio3': 10,
-    'skype_audio4': 10,
-    # VPN: Chat
-    'vpn_aim_chat1a': 6,
-    'vpn_aim_chat1b': 6,
-    'vpn_facebook_chat1a': 6,
-    'vpn_facebook_chat1b': 6,
-    'vpn_hangouts_chat1a': 6,
-    'vpn_hangouts_chat1b': 6,
-    'vpn_icq_chat1a': 6,
-    'vpn_icq_chat1b': 6,
-    'vpn_skype_chat1a': 6,
-    'vpn_skype_chat1b': 6,
-    # VPN: File Transfer
-    'vpn_ftps_a': 3,
-    'vpn_ftps_b': 3,
-    'vpn_sftp_a': 3,
-    'vpn_sftp_b': 3,
-    'vpn_skype_files1a': 3,
-    'vpn_skype_files1b': 3,
-    # VPN: Email
-    'vpn_email2a': 8,
-    'vpn_email2b': 8,
-    # VPN: Streaming
-    'vpn_vimeo_a': 4,
-    'vpn_vimeo_b': 4,
-    'vpn_youtube_a': 4,
-    'vpn_spotify_a': 4,
-    'vpn_netflix_a': 4,
-    # VPN: Torrent
-    'vpn_bittorrent': 5,
-    # VPN VoIP
-    'vpn_facebook_audio2': 11,
-    'vpn_hangouts_audio1': 11,
-    'vpn_hangouts_audio2': 11,
-    'vpn_skype_audio1': 11,
-    'vpn_skype_audio2': 11,
-}
+# PREFIX_TO_TRAFFIC_ID = {
+#     # Chat
+#     'aim_chat_3a': 9,
+#     'aim_chat_3b': 9,
+#     'aimchat1': 9,
+#     'aimchat2': 9,
+#     'facebook_chat_4a': 9,
+#     'facebook_chat_4b': 9,
+#     'facebookchat1': 9,
+#     'facebookchat2': 9,
+#     'facebookchat3': 9,
+#     'hangout_chat_4b': 9,
+#     'hangouts_chat_4a': 9,
+#     'icq_chat_3a': 9,
+#     'icq_chat_3b': 9,
+#     'icqchat1': 9,
+#     'icqchat2': 9,
+#     'skype_chat1a': 9,
+#     'skype_chat1b': 9,
+#     # Email
+#     'email1a': 7,
+#     'email1b': 7,
+#     'email2a': 7,
+#     'email2b': 7,
+#     # File Transfer
+#     'ftps_down_1a': 0,
+#     'ftps_down_1b': 0,
+#     'ftps_up_2a': 0,
+#     'ftps_up_2b': 0,
+#     'sftp1': 0,
+#     'sftp_down_3a': 0,
+#     'sftp_down_3b': 0,
+#     'sftp_up_2a': 0,
+#     'sftp_up_2b': 0,
+#     'sftpdown1': 0,
+#     'sftpdown2': 0,
+#     'sftpup1': 0,
+#     'skype_file1': 0,
+#     'skype_file2': 0,
+#     'skype_file3': 0,
+#     'skype_file4': 0,
+#     'skype_file5': 0,
+#     'skype_file6': 0,
+#     'skype_file7': 0,
+#     'skype_file8': 0,
+#     # Streaming
+#     'vimeo1': 1,
+#     'vimeo2': 1,
+#     'vimeo3': 1,
+#     'vimeo4': 1,
+#     'youtube1': 1,
+#     'youtube2': 1,
+#     'youtube3': 1,
+#     'youtube4': 1,
+#     'youtube5': 1,
+#     'youtube6': 1,
+#     'youtubehtml5_1': 1,
+#     'spotify1': 1,
+#     'spotify2': 1,
+#     'spotify3': 1,
+#     'spotify4': 1,
+#     'netflix1': 1,
+#     'netflix2': 1,
+#     'netflix3': 1,
+#     'netflix4': 1,
+#     # Torrent
+#     'torrent01': 2,
+#     # VoIP
+#     'facebook_audio1a': 10,
+#     'facebook_audio1b': 10,
+#     'facebook_audio2a': 10,
+#     'facebook_audio2b': 10,
+#     'facebook_audio3': 10,
+#     'facebook_audio4': 10,
+#     'hangouts_audio1a': 10,
+#     'hangouts_audio1b': 10,
+#     'hangouts_audio2a': 10,
+#     'hangouts_audio2b': 10,
+#     'hangouts_audio3': 10,
+#     'hangouts_audio4': 10,
+#     'skype_audio1a': 10,
+#     'skype_audio1b': 10,
+#     'skype_audio2a': 10,
+#     'skype_audio2b': 10,
+#     'skype_audio3': 10,
+#     'skype_audio4': 10,
+#     # VPN: Chat
+#     'vpn_aim_chat1a': 6,
+#     'vpn_aim_chat1b': 6,
+#     'vpn_facebook_chat1a': 6,
+#     'vpn_facebook_chat1b': 6,
+#     'vpn_hangouts_chat1a': 6,
+#     'vpn_hangouts_chat1b': 6,
+#     'vpn_icq_chat1a': 6,
+#     'vpn_icq_chat1b': 6,
+#     'vpn_skype_chat1a': 6,
+#     'vpn_skype_chat1b': 6,
+#     # VPN: File Transfer
+#     'vpn_ftps_a': 3,
+#     'vpn_ftps_b': 3,
+#     'vpn_sftp_a': 3,
+#     'vpn_sftp_b': 3,
+#     'vpn_skype_files1a': 3,
+#     'vpn_skype_files1b': 3,
+#     # VPN: Email
+#     'vpn_email2a': 8,
+#     'vpn_email2b': 8,
+#     # VPN: Streaming
+#     'vpn_vimeo_a': 4,
+#     'vpn_vimeo_b': 4,
+#     'vpn_youtube_a': 4,
+#     'vpn_spotify_a': 4,
+#     'vpn_netflix_a': 4,
+#     # VPN: Torrent
+#     'vpn_bittorrent': 5,
+#     # VPN VoIP
+#     'vpn_facebook_audio2': 11,
+#     'vpn_hangouts_audio1': 11,
+#     'vpn_hangouts_audio2': 11,
+#     'vpn_skype_audio1': 11,
+#     'vpn_skype_audio2': 11,
+# }
+#
+# ID_TO_TRAFFIC = {
+#     0: 'File Transfer',
+#     1: 'Streaming',
+#     2: 'Torrent',
+#     3: 'VPN: File Transfer',
+#     4: 'VPN: Streaming',
+#     5: 'VPN: Torrent',
+#     6: 'VPN: Chat',
+#     7: 'Email',
+#     8: 'VPN: Email',
+#     9: 'Chat',
+#     10: 'Voip',
+#     11: 'VPN: Voip',
+# }
 
-ID_TO_TRAFFIC = {
-    0: 'File Transfer',
-    1: 'Streaming',
-    2: 'Torrent',
-    3: 'VPN: File Transfer',
-    4: 'VPN: Streaming',
-    5: 'VPN: Torrent',
-    6: 'VPN: Chat',
-    7: 'Email',
-    8: 'VPN: Email',
-    9: 'Chat',
-    10: 'Voip',
-    11: 'VPN: Voip',
-}
 
 
 def read_pcap(path: Path):

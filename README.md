@@ -1,4 +1,4 @@
-# thesis
+# NNSPlit
 
 ## P4 Code
 * nnsplit.p4

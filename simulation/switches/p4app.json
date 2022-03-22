@@ -5,8 +5,8 @@
   "options": "--target bmv2 --arch v1model --std p4-16",
   "switch_cli": "simple_switch_CLI",
   "cli": true,
-  "pcap_dump": true,
-  "enable_log": true,
+  "pcap_dump": false,
+  "enable_log": false,
   "topo_module": {
     "file_path": "",
     "module_name": "p4utils.mininetlib.apptopo",
@@ -25,7 +25,7 @@
   },
   "topology": {
     "assignment_strategy": "mixed",
-    "links": [["h1", "s1"], ["h2", "s5"], ["s1", "s2"], ["s2", "s3"], ["s3", "s4"], ["s4", "s5"]],
+    "links": [["h1", "s1"], ["h2", "s4"], ["s1", "s2"], ["s2", "s3"], ["s3", "s4"]],
     "hosts": {
       "h1": {
       },
@@ -34,23 +34,19 @@
     },
     "switches": {
       "s1": {
-        "cli_input": "s1-commands.txt",
+        "cli_input": "switch_commands/s1-commands.txt",
         "program": "nnsplit.p4"
       },
       "s2": {
-        "cli_input": "s2-commands.txt",
+        "cli_input": "switch_commands/s2-commands.txt",
         "program": "nnsplit.p4"
       },
       "s3": {
-        "cli_input": "s3-commands.txt",
-        "program": "forwarding.p4"
-      },
-    "s4": {
-        "cli_input": "s4-commands.txt",
+        "cli_input": "switch_commands/s3-commands.txt",
         "program": "nnsplit.p4"
       },
-    "s5": {
-        "cli_input": "s5-commands.txt",
+    "s4": {
+        "cli_input": "switch_commands/s4-commands.txt",
         "program": "nnsplit.p4"
       }
     }

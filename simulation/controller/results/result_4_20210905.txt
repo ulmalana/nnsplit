@@ -1,0 +1,6 @@
+############## Classification result. Class: 4 ##################
+
+File Transfer: 119 
+Streaming: 15792 
+Torrent: 9089 
+Total Packets: 25000 
